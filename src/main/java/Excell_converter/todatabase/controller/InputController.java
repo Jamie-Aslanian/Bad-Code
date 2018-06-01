@@ -87,7 +87,7 @@ public class InputController {
 				App.print(storedProperties.toString());
 			//print out from the excel
 		}
-		if(string.equals("read")&&App.arg0.contains("3")) 
+		if(string.equals("read")&&App.arg0.contains("3")&&DatabaseAO.getdb().isHasid()) 
 		{
 			int x=0;
 			List<StoredProperties> list1 = DatabaseAO.getdb().getAll();
