@@ -20,7 +20,7 @@ public class InputControllerTest {
 	
 	private static DatabaseAO mockedDB = mock(DatabaseAO.class);
 	private static ExcelReader mockedEX = mock(ExcelReader.class);
-	
+	private static int number=0;
 	@Before
 	public void setupTests() {
 		
@@ -77,13 +77,16 @@ public class InputControllerTest {
 
 		InputController.handleinput("mode1");
 		InputController.handleinput("read");
+		number++;
 		verify(mockedDB).getAll();
 		InputController.handleinput("mode2");
 		InputController.handleinput("read");
-		verify(mockedEX, times(1)).read();
+		number++;
+		verify(mockedEX).read();
 		InputController.handleinput("mode3");
 		InputController.handleinput("read");
-		verify(mockedDB, times(2)).getAll();
+		number++;
+		verify(mockedDB,times(2)).getAll();
 		
 	}
 	
@@ -92,12 +95,15 @@ public class InputControllerTest {
 	{
 		InputController.handleinput("mode1");
 		InputController.handleinput("process");
+		number++;
 		verify(mockedDB).saveAll(mockedEX.read());
 		InputController.handleinput("mode2");
 		InputController.handleinput("process");
-		verify(mockedDB, times(2)).saveAll(mockedEX.read());
+		number++;
+		verify(mockedDB).saveAll(mockedEX.read());
 		InputController.handleinput("mode3");
 		InputController.handleinput("process");
-		verify(mockedDB, times(3)).saveAll(mockedEX.read());
+		number++;
+		verify(mockedDB).saveAll(mockedEX.read());
 	}
 }

@@ -1,6 +1,0 @@
-projectKey=Excell_converter:todatabase
-serverUrl=http://10.0.125.40:9000
-serverVersion=6.7.3.38370
-dashboardUrl=http://10.0.125.40:9000/dashboard/index/Excell_converter:todatabase
-ceTaskId=AWO6da2sbMthjRbg7Jpv
-ceTaskUrl=http://10.0.125.40:9000/api/ce/task?id=AWO6da2sbMthjRbg7Jpv
