@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ public class DatabaseAO {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseAO.class.getName());
 	private static String path = ExcelReader.getpath();
 	private static DatabaseAO db;
-	private static List<StoredProperties> data;
+	private static ArrayList<StoredProperties> data;
 	private boolean hasid;
 	private static String databaseLocation = path + "/DB/Database.ser";
 
@@ -46,7 +47,7 @@ public class DatabaseAO {
 
 	}
 
-	public static List<StoredProperties> getAll() {
+	public List<StoredProperties> getAll() {
 		List<StoredProperties> e;
 		try (FileInputStream fileIn = new FileInputStream(databaseLocation);
 				ObjectInputStream in = new ObjectInputStream(fileIn);) {
@@ -59,7 +60,7 @@ public class DatabaseAO {
 			LOGGER.severe(c.getMessage());
 			return Collections.emptyList();
 		}
-		data = e;
+		data = (ArrayList<StoredProperties>) e;
 		return data;
 
 	}
@@ -72,13 +73,15 @@ public class DatabaseAO {
 	}
 
 	public void delete(int i) {
-		if (i == 1) {
+		
 			if (i == 1) {
 				int x = data.size();
-				for (int j = x - 1; j >= 0; j--) {
-					data.remove(j);
+				for (int z = x - 1; z >= 0; z--) {
+					if(z>-1) {
+					data.remove(z);
+					}
 				}
-			}
+			
 		} else {
 			if (i == 2)
 				data.remove(0);
@@ -96,6 +99,10 @@ public class DatabaseAO {
 			return db;
 		} else
 			return db;
+	}
+	
+	public static void setdb(DatabaseAO d) {
+		db=d;
 	}
 
 	public boolean isHasid() {

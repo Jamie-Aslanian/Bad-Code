@@ -10,6 +10,7 @@ public class App {
 	private static Window win;
 	private static String arg0;
 	private static Converter con = new Converter();private static Thread thread;
+	private static boolean test;
 
 	public static void closeApplication() {
 		App.win.stopwindow();
@@ -31,12 +32,12 @@ public class App {
 	public static void main(String[] args){
 		con.writer().println("WELCOME TO THE GREATEST EXCEL TO DB CONVERTER IN THE WORLD!");
 		win = Window.getWindow();
-		thread = new Thread(new Runnable() {
-			public void run() {
+		thread = new Thread(  () -> {
+			
 				LOGGER.info("Loading");
 				win.run(args);
 			}
-		});
+		);
 
 		thread.start();
 		win = Window.getWindow();
@@ -57,6 +58,14 @@ public class App {
 	
 	public static void setCon(Converter con) {
 		App.con = con;
+	}
+
+	public static boolean isTest() {
+		return test;
+	}
+
+	public static void setTest(boolean test) {
+		App.test = test;
 	}
 
 }

@@ -18,6 +18,8 @@ public class InputController {
 	
 	static Boolean someBoolean;
 	static EntityManager ent = new JdbcTemplate();
+	static DatabaseAO db = DatabaseAO.getdb();
+	static ExcelReader ex = new ExcelReader();
 
 	private static void handleDelete() {
 		switch(App.getArg0()) {
@@ -44,7 +46,7 @@ public class InputController {
 	
 	private static void handleFind(String string) {
 		String sql = "" + string.substring(4, string.length());
-		App.print(ent.createNativeQuery("Select Where id=" + sql).get(0).toString());
+		App.print(ent.createNativeQuery("select Where id=" + sql).get(0).toString());
 	}
 	
 	private static void handleHelpRequest() {
@@ -52,8 +54,8 @@ public class InputController {
 		App.print("Setup // <Mode1, Mode2, Mode3> // Process // Read // Delete // Find // <Close, End, Exit, Quit>");
 	}
 
-	public static void handleinput(String string){
-		switch (string.toLowerCase()) {
+	public static synchronized void handleinput(String string){
+		switch (string.toLowerCase().split(" ")[0]) {
 		case "setup":
 			handleSetup();
 			break;
@@ -133,7 +135,7 @@ public class InputController {
 		switch (App.getArg0()) {
 		case "1":
 			DatabaseAO.getdb().setHasid(false);
-			ExcelReader ex = new ExcelReader();
+			
 			DatabaseAO.getdb().saveAll(ex.read());
 			success = true;
 			// convert to db (no id)
@@ -166,7 +168,7 @@ public class InputController {
 	private static void handleRead() {
 		switch (App.getArg0()) {
 		case "1":
-			List<StoredProperties> list = DatabaseAO.getdb().getAll();
+			List<StoredProperties> list = db.getAll();
 			LOGGER.info("Reading");
 			for (StoredProperties storedProperties : list) {
 				App.print(storedProperties.toString());
@@ -174,7 +176,7 @@ public class InputController {
 			// print out from the DB
 			break;
 		case "2":
-			List<StoredProperties> propList = new ExcelReader().read();
+			List<StoredProperties> propList = ex.read();
 			for (StoredProperties storedProperties : propList) {
 				App.print(storedProperties.toString());
 				// print out from the excel
@@ -182,7 +184,7 @@ public class InputController {
 			break;
 		case "3":
 			int x = 0;
-			List<StoredProperties> list1 = DatabaseAO.getdb().getAll();
+			List<StoredProperties> list1 = db.getAll();
 			for (StoredProperties storedProperties : list1) {
 				App.print("ID: " + x + " -- " + storedProperties.toString());
 				x++;
@@ -208,5 +210,9 @@ public class InputController {
 	}
 	
 	private InputController() {}
+	
+	public static void setExcellReader(ExcelReader e) {
+		if (App.isTest()) ex=e;
+	}
 
 }

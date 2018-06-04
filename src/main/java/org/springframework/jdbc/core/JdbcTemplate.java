@@ -32,7 +32,7 @@ public class JdbcTemplate implements EntityManager{
 		if(q.contains("select")&&q.contains("id=")) 
 		{
 			int beginIndex=q.indexOf('=');
-			long id = Integer.parseInt(q.substring(beginIndex));
+			long id = Integer.parseInt(q.substring(beginIndex+2));
 			try {
 				list.add(jdbc.findById(id));
 			    return	list;

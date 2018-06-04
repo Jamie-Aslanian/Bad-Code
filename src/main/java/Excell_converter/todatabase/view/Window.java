@@ -95,13 +95,13 @@ public class Window extends Application {
 	}
 
 	public void printToView(String print) {
-
+		if(win!=null&&!App.isTest()) {
 		lab5.setText(lab4.getText());
 		lab4.setText(lab3.getText());
 		lab3.setText(lab2.getText());
 		lab2.setText(lab1.getText());
 		lab1.setText(print);
-
+		}
 	}
 
 	public void stopwindow() {

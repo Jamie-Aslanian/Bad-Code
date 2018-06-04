@@ -1,5 +1,6 @@
 package Excell_converter.todatabase;
 
+import Excell_converter.todatabase.view.Converter;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -28,11 +29,18 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
+    @org.junit.Test
     public void testApp()
     {
-        assertTrue( true );
+    	App.setTest(true);
+    	assertTrue(App.isTest());
+    	App.setArg0("1");
+    	assertTrue(App.getArg0().equals("1"));
+    	Converter test = new Converter();
+    	App.setCon(test);
+    	assertTrue(App.getCon().equals(test));
+    	test.println("Welcome to the Game");
+    	App.listener();
+    	assertTrue(App.getArg0().equals("Welcome to the Game"));
     }
 }
