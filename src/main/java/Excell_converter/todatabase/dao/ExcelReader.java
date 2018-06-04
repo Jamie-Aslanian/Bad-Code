@@ -1,30 +1,27 @@
 package Excell_converter.todatabase.dao;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import Excell_converter.todatabase.model.StoredProperties;
 
 public class ExcelReader {
-
-	private static Path path= Paths.get("");
+	private static final Logger LOGGER = Logger.getLogger( ExcelReader.class.getName() );
 	public List<StoredProperties> read()
 	{
 		List<StoredProperties> prop = new ArrayList<>();
         String csvFile = getpath()+"/csv/data.csv";
-        BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
 
-        try {
-
-            br = new BufferedReader(new FileReader(csvFile));
+        try (
+        		BufferedReader br = new BufferedReader(new FileReader(csvFile));
+        	){
             while ((line = br.readLine()) != null) {
 
                 // use comma as separator
@@ -32,28 +29,15 @@ public class ExcelReader {
                 
                 int f1 = Integer.parseInt(input[0]);
                 int f2 = Integer.parseInt(input[1]);
-                StoredProperties PR = new StoredProperties(f1, f2);
-                prop.add(PR);
+                StoredProperties pr = new StoredProperties(f1, f2);
+                prop.add(pr);
                 //send to dao
 
             }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                    return prop;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            
+            LOGGER.severe(e.getMessage());
         }
-		return null;
+		return Collections.emptyList();
 
 	}
 	public static String getpath() 
@@ -62,7 +46,7 @@ public class ExcelReader {
 	        String executionPath = System.getProperty("user.dir");
 	        return executionPath.replace("\\", "/");
 	      }catch (Exception e){
-	        System.out.println("Exception caught ="+e.getMessage());
+	        LOGGER.severe("Exception caught ="+e.getMessage());
 	      }
 		return null;
 	}

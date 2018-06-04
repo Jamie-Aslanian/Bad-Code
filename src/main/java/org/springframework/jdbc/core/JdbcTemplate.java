@@ -1,7 +1,9 @@
 package org.springframework.jdbc.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -10,15 +12,15 @@ import Excell_converter.todatabase.dao.DatabaseAO;
 
 @Resource
 public class JdbcTemplate implements EntityManager{
-
+	private static final Logger LOGGER = Logger.getLogger( JdbcTemplate.class.getName() );
 
 	static DatabaseAO jdbc=DatabaseAO.getdb();
 	
-	public static void query(String q) throws Exception 
+	public static void query(String q)
 	{
 		if(q.contains("select")&&q.contains("id=")) 
 		{
-			int beginIndex=q.indexOf("=");
+			int beginIndex=q.indexOf('=');
 			long id = Integer.parseInt(q.substring(beginIndex));
 			jdbc.findById(id);
 		}
@@ -29,23 +31,21 @@ public class JdbcTemplate implements EntityManager{
 		List<Object> list = new ArrayList<>();
 		if(q.contains("select")&&q.contains("id=")) 
 		{
-			int beginIndex=q.indexOf("=");
+			int beginIndex=q.indexOf('=');
 			long id = Integer.parseInt(q.substring(beginIndex));
 			try {
 				list.add(jdbc.findById(id));
 			    return	list;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			}
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public List<Object> createQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 	
 	

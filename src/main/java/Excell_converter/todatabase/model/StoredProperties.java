@@ -4,10 +4,6 @@ import java.io.Serializable;
 
 public class StoredProperties implements Serializable {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2368354838529655030L;
 	
 	private int field1;
