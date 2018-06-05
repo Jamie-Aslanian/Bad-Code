@@ -6,4 +6,5 @@ Implementation-Vendor-Id: Excell_converter
 Build-Jdk: 1.8.0_151
 Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
+Main-Class: Excell_converter.todatabase.App
 
