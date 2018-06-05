@@ -207,12 +207,19 @@ public class InputController {
 		list.add(sp3);
 		list.add(sp4);
 		DatabaseAO.getdb().saveAll(list);
+		
 	}
 	
 	private InputController() {}
 	
 	public static void setExcellReader(ExcelReader e) {
 		if (App.isTest()) ex=e;
+	}
+	
+	public static void resetDB() {
+		if(App.isTest()==true) {
+		db=DatabaseAO.getdb();
+		}
 	}
 
 }
